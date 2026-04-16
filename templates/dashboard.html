@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Hotel Billing{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="welcome-panel">
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <span>Welcome to {{ g.user.hotel_name }} Billing System</span>
+                <span>Manage your menu, generate bills, and track revenue with ease</span>
+                <span>Secure and efficient billing for your hotel</span>
+            </div>
+        </div>
+    </div>
+    <div class="grid-cards">
+        <div class="info-card orange-card">
+            <h2>{{ total_items }}</h2>
+            <p>Menu Items</p>
+        </div>
+        <div class="info-card yellow-card">
+            <h2>{{ total_bills }}</h2>
+            <p>Generated Bills</p>
+        </div>
+        <div class="info-card violet-card">
+            <h2>Rs. {{ '%.2f' | format(total_revenue) }}</h2>
+            <p>Total Revenue</p>
+        </div>
+    </div>
+    <div class="section-block">
+        <h3>Quick Actions</h3>
+        <div class="action-grid">
+            <a href="{{ url_for('items') }}" class="action-box">Manage Items</a>
+            <a href="{{ url_for('billing') }}" class="action-box">Create Bill</a>
+            <a href="{{ url_for('revenue') }}" class="action-box">View Revenue</a>
+            <a href="{{ url_for('settings') }}" class="action-box">Profile Settings</a>
+        </div>
+    </div>
+  
+    </div>
+{% endblock %}

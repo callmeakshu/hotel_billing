@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Billing - Hotel Billing{% endblock %}
+{% block page_title %}Create New Bill{% endblock %}
+{% block content %}
+    <div class="section-block">
+        <form method="POST" id="billing-form" class="billing-form">
+            <div class="billing-header">
+                <div>
+                    <label>Customer Mobile</label>
+                    <input type="text" name="customer_mobile" placeholder="1234567890" pattern="\d{10}" maxlength="10" title="Enter 10 digit mobile number" />
+                </div>
+                <button type="button" id="add-row" class="btn btn-primary">Add Item</button>
+            </div>
+            <div class="billing-table" id="billing-rows">
+                <div class="billing-row header-row">
+                    <div>Menu Item</div>
+                    <div>Quantity</div>
+                    <div>Price</div>
+                    <div>Subtotal</div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="billing-total-panel">
+                <span>Total</span>
+                <span id="billing-total">Rs. 0.00</span>
+            </div>
+            <button type="submit" name="action" value="send" class="btn btn-primary">Generate Final Bill</button>
+        </form>
+    </div>
+    {% if bill_summary %}
+        <div class="section-block receipt-card">
+            <h3>Final Bill</h3>
+            <div class="receipt-meta">
+                <strong>{{ bill_summary.hotel_name }}</strong>
+                <span>{{ bill_summary.date_time | format_dt }}</span>
+            </div>
+            <table class="receipt-table">
+                <thead>
+                    <tr><th>Item</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in bill_summary.bill_items %}
+                        <tr>
+                            <td>{{ item.item_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>Rs. {{ '%.2f' | format(item.price) }}</td>
+                            <td>Rs. {{ '%.2f' | format(item.subtotal) }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="receipt-total">Total Amount: Rs. {{ '%.2f' | format(bill_summary.total_amount) }}</div>
+            {% if bill_summary.customer_mobile %}
+                <div class="receipt-note">Bill saved successfully. WhatsApp will open with the bill details.</div>
+            {% endif %}
+        </div>
+    {% endif %}
+    <template id="row-template">
+        <div class="billing-row">
+            <div>
+                <select name="item_id" class="item-select" required>
+                    <option value="">Select an item</option>
+                    {% for item in items %}
+                        <option value="{{ item.id }}" data-price="{{ item.price }}">{{ item.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div><input type="number" name="quantity" value="1" min="1" class="qty-input" required /></div>
+            <div class="price-cell">Rs. 0.00</div>
+            <div class="subtotal-cell">Rs. 0.00</div>
+            <div><button type="button" class="remove-row">Remove</button></div>
+        </div>
+    </template>
+    <script src="{{ url_for('static', filename='js/billing.js') }}"></script>
+{% endblock %}

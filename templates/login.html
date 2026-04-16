@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Hotel Billing System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Hotel Owner Login</h1>
+            <p>Secure access to your hotel billing dashboard.</p>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form method="POST" class="auth-form">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="hotel@example.com" required />
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter password" required />
+            <button type="submit" class="btn btn-primary">Login</button>
+            <p class="auth-note">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+        </form>
+    </div>
+</body>
+</html>

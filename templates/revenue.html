@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Revenue - Hotel Billing{% endblock %}
+{% block page_title %}Revenue Analytics{% endblock %}
+{% block content %}
+    <div class="section-block">
+        <form method="GET" class="range-form">
+            <div>
+                <label>Start Date</label>
+                <input type="date" name="start_date" value="{{ start_date }}" required />
+            </div>
+            <div>
+                <label>End Date</label>
+                <input type="date" name="end_date" value="{{ end_date }}" required />
+            </div>
+            <input type="hidden" name="mode" value="range" />
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+    <div class="grid-cards">
+        <div class="info-card orange-card">
+            <h2>Rs. {{ '%.2f' | format(total_revenue) }}</h2>
+            <p>Total Revenue</p>
+        </div>
+        <div class="info-card yellow-card">
+            <h2>{{ total_bills }}</h2>
+            <p>Total Bills</p>
+        </div>
+    </div>
+    <div class="section-block delete-block">
+        <button type="button" class="btn btn-danger" onclick="toggleDeleteForm()">Delete All Billing History</button>
+        <form method="POST" action="{{ url_for('delete_history') }}" class="delete-form" id="deleteForm" style="display:none;" autocomplete="off">
+            <div class="form-grid">
+                <div>
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="hotel@example.com" required autocomplete="off" />
+                </div> <br>
+                <div> 
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Account password" required autocomplete="off" />
+                </div>  
+            </div>  
+
+            <br> 
+            
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete all billing history? This action cannot be undone.')">Confirm Delete</button>
+        </form>
+        <p class="delete-note">This removes all bills for your hotel owner account and resets revenue data.</p>
+    </div>
+    <div class="section-block">
+        <h3>Bill Records</h3>
+        {% if bills %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Total Amount</th>
+                            <th>Customer Mobile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bill in bills %}
+                            <tr>
+                                <td>{{ bill.date_time | format_dt }}</td>
+                                <td>Rs. {{ '%.2f' | format(bill.total_amount) }}</td>
+                                <td>{{ bill.customer_mobile or 'N/A' }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="section-block">
+                <a href="{{ url_for('download_excel', start_date=start_date, end_date=end_date, mode=filter_mode) }}" class="btn btn-secondary">Download Excel File</a>
+            </div>
+        {% else %}
+            <p class="empty-state">No bills found for this date range.</p>
+        {% endif %}
+    </div>
+    <script>
+        function toggleDeleteForm() {
+            const form = document.getElementById('deleteForm');
+            form.style.display = form.style.display === 'none' ? 'grid' : 'none';
+        }
+    </script>
+{% endblock %}

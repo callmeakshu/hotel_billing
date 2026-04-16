@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Help & Guide Support - Hotel Billing{% endblock %}
+{% block page_title %}Help & Guide Support{% endblock %}
+{% block content %}
+    <div class="help-content">
+        <p><strong>Dashboard:</strong> Overview of your hotel's billing stats like total items, bills, and revenue.</p>
+        <p><strong>Items:</strong> Add, edit, and manage your menu items with prices.</p>
+        <p><strong>Billing:</strong> Create bills for customers and send them directly via WhatsApp.</p>
+        <p><strong>Revenue:</strong> View bill records, track revenue, and download Excel reports.</p>
+        <p><strong>Settings:</strong> Update your hotel name, email, contact, and password.</p>
+        <p><strong>What you can expect:</strong> Easy bill generation, secure data, WhatsApp integration for customer communication, and revenue insights.</p>
+        <div class="developer-info">
+            <h3>Developer Info</h3>
+            <p>This Hotel Billing Software is Designed and developed by Akshay Nimbaragi.</p>
+            <p>If you have any queries about this billing software then you can reach me out here 👇</p>
+            <div class="contact-icons">
+                <a href="https://wa.me/7975004993"><img src="{{ url_for('static', filename='images/whatsapp.jpg') }}" alt="Contact via WhatsApp" class="whatsapp-icon"></a> 
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=codingwithak6@gmail.com"><img src="{{ url_for('static', filename='images/email.jpg') }}" alt="Contact via Email" class="email-icon"></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

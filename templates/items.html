@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Items - Hotel Billing{% endblock %}
+{% block page_title %}Item Management{% endblock %}
+{% block content %}
+    <div class="section-block">
+        <h3>{% if edit_item %}Edit Item{% else %}Add New Item{% endif %}</h3>
+        <form method="POST" class="simple-form">
+            <div class="form-grid">
+                <div>
+                    <label>Item Name</label>
+                    <input type="text" name="name" value="{{ edit_item.name if edit_item else '' }}" placeholder="Ex: Biriyani" required />
+                </div>
+                <div>
+                    <label>Price (Rs.)</label>
+                    <input type="number" step="0.01" name="price" value="{{ edit_item.price if edit_item else '' }}" placeholder="299₹" required />
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{% if edit_item %}Update Item{% else %}Add Item{% endif %}</button>
+                {% if edit_item %}
+                    <a class="btn btn-secondary" href="{{ url_for('items') }}">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    <div class="section-block">
+        <h3>My Items</h3>
+        {% if items %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>Rs. {{ '%.2f' | format(item.price) }}</td>
+                                <td>
+                                    <a class="mini-btn" href="{{ url_for('edit_item', item_id=item.id) }}">Edit</a>
+                                    <a class="mini-btn danger" href="javascript:void(0)" onclick="confirmDelete('{{ url_for('delete_item', item_id=item.id) }}')">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="empty-state">No items found. Add your first item to start billing.</p>
+        {% endif %}
+    </div>
+{% endblock %}

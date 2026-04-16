@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Settings - Hotel Billing{% endblock %}
+{% block page_title %}Profile Settings{% endblock %}
+{% block content %}
+    <div class="section-block">
+        <form method="POST" class="simple-form">
+            <div class="form-grid">
+                <div>
+                    <label>Hotel Name</label>
+                    <input type="text" name="hotel_name" value="{{ g.user.hotel_name }}" required />
+                </div>
+
+                 <br>
+
+                <div>
+                    <label>Email</label>
+                    <input type="email" name="email" value="{{ g.user.email }}" required />
+                </div>
+
+                 <br>
+
+
+                <div>
+                    <label>Contact</label>
+                    <input type="text" name="contact" value="{{ g.user.contact }}" pattern="\d{10}" maxlength="10" title="Enter 10 digit mobile number" required />
+                </div>
+
+                <br>
+
+                <div>
+                    <label>New Password</label>
+                    <input type="password" name="password" placeholder="Leave blank to keep current" />
+                </div>
+
+                <br>
+
+                <div>
+                    <label>Current Email</label>
+                    <input type="email" name="current_email" placeholder="Enter current email" required />
+                </div>
+
+                <br>
+                
+                <div>
+                    <label>Current Password</label>
+                    <input type="password" name="current_password" placeholder="Enter current password" required />
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Update Settings</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
